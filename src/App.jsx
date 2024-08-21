@@ -6,17 +6,20 @@ import PostDetailsPage from "./components/PostDetailsPage";
 import EditPostPage from "./components/EditPostPage";
 import MissingPage from "./components/MissingPage";
 import Footer from "./components/Footer";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Home />
-      <Post />
-      <AddPost />
-      <PostDetailsPage />
-      <EditPostPage />
-      <MissingPage />
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/post" element={<Post />} />
+        <Route exac path="/add-post" element={<AddPost />} />
+        <Route exact path="/post/:id" element={<PostDetailsPage />} />
+        <Route exact path="/edit-post" element={<EditPostPage />} />
+        <Route exact path="*" element={<MissingPage />} />
+      </Routes>
       <Footer />
     </div>
   );
