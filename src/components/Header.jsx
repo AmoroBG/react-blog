@@ -4,6 +4,7 @@ const Header = () => {
   return (
     <header>
       <h1>React Blog</h1>
+      <nav>Nav</nav>
     </header>
   );
 };
