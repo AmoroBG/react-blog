@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ search, setSearch }) => {
   return (
     <header>
       <h1>React Blog</h1>
@@ -14,8 +14,13 @@ const Header = () => {
             <Link to="/add-post">Post</Link>
           </li>
         </ul>
-        <form className="search-post">
-          <input type="text" placeholder="Search Post..." />
+        <form className="search">
+          <input
+            type="text"
+            placeholder="Search Post"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </form>
       </nav>
     </header>

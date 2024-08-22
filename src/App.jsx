@@ -7,7 +7,7 @@ import EditPostPage from "./components/EditPostPage";
 import MissingPage from "./components/MissingPage";
 import Footer from "./components/Footer";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const Navigate = useNavigate();
@@ -19,6 +19,17 @@ function App() {
   ]);
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const searchPosts = posts.filter(
+      (post) =>
+        post.title.toLowerCase().includes(search.toLowerCase()) ||
+        post.body.toLowerCase().includes(search.toLowerCase())
+    );
+
+    setPosts(searchPosts.reverse());
+  }, [search]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +50,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+      <Header search={search} setSearch={setSearch} />
       <Routes>
         <Route
           exact
