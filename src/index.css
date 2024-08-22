@@ -69,9 +69,47 @@ main{
   flex: 1;
   padding: 1rem;
 }
-
-
-
+main h1{
+  text-align: center;
+}
+main li{
+  margin: 0.55rem 0;
+}
+main form{
+  width: 25rem;
+ margin: 0 auto;
+ padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+form div{
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+}
+label{
+  font-weight: bold;
+  padding: 0.25rem 0;
+}
+input, textarea{
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem;
+}
+button{
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  background-color: #4169e1d2;
+  color: white;
+}
+button:hover{
+  background-color: royalblue;
+  font-weight: bold;
+}
 
 
 
