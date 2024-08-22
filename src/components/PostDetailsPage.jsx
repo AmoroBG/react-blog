@@ -1,11 +1,28 @@
-import React from 'react'
+import React from "react";
+import { useParams } from "react-router-dom";
 
-const PostDetailsPage = () => {
+const PostDetailsPage = ({ posts, handleDelete }) => {
+  const { id } = useParams();
+  const post = posts.find((post) => post.id.toString() === id);
+
   return (
-   <main className="post-details">
-    <h2>Post Details</h2>
-   </main>
-  )
-}
+    <main className="post-details">
+      <h2>{post.title}</h2>
+      <p>{post.body}</p>
+      <div className="buttons">
+        <button type="submit" className="edit">
+          Edite
+        </button>
+        <button
+          type="button"
+          className="delete"
+          onClick={() => handleDelete(post.id)}
+        >
+          Delet
+        </button>
+      </div>
+    </main>
+  );
+};
 
-export default PostDetailsPage
+export default PostDetailsPage;

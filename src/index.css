@@ -110,7 +110,23 @@ button:hover{
   background-color: royalblue;
   font-weight: bold;
 }
+.buttons{
+  margin: 1rem 0;
+}
+button.edit{
+  background-color: #0080807b;
+  margin-right: 2rem;
+}
+button.edit:hover{
+  background-color: teal;
+}
 
+button.delete{
+  background-color: #ff000057;
+}
+button.delete:hover{
+  background-color: red;
+}
 
 
 footer{

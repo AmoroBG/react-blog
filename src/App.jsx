@@ -6,10 +6,12 @@ import PostDetailsPage from "./components/PostDetailsPage";
 import EditPostPage from "./components/EditPostPage";
 import MissingPage from "./components/MissingPage";
 import Footer from "./components/Footer";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function App() {
+  const Navigate = useNavigate();
+
   const [posts, setPosts] = useState([
     { id: 1, title: "Post 1", body: "Post 1 Content" },
     { id: 2, title: "Post 2", body: "Post Two Body" },
@@ -21,11 +23,18 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const id = posts.length ? Number(posts[posts.length - 1].id) + 1 : 1;
-    const newPost={id, title:postTitle, body:postBody}
-    const allPosts=[...posts, newPost]
-    setPosts(allPosts)
-    setPostTitle("")
-    setPostBody("")
+    const newPost = { id, title: postTitle, body: postBody };
+    const allPosts = [...posts, newPost];
+    setPosts(allPosts);
+    setPostTitle("");
+    setPostBody("");
+    Navigate("/");
+  };
+
+  const handleDelete = (id) => {
+    const allPosts = posts.filter((post) => post.id !== id);
+    setPosts(allPosts);
+    Navigate("/");
   };
 
   return (
@@ -51,7 +60,13 @@ function App() {
             />
           }
         />
-        <Route exact path="/post/:id" element={<PostDetailsPage />} />
+        <Route
+          exact
+          path="/post/:id"
+          element={
+            <PostDetailsPage posts={posts} handleDelete={handleDelete} />
+          }
+        />
         <Route exact path="/edit-post" element={<EditPostPage />} />
         <Route exact path="*" element={<MissingPage />} />
       </Routes>
