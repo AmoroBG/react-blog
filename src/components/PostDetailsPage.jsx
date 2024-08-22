@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const PostDetailsPage = ({ posts, handleDelete }) => {
   const { id } = useParams();
@@ -10,9 +10,11 @@ const PostDetailsPage = ({ posts, handleDelete }) => {
       <h2>{post.title}</h2>
       <p>{post.body}</p>
       <div className="buttons">
-        <button type="submit" className="edit">
-          Edite
-        </button>
+        <Link to={`/edit/${post.id}`}>
+          <button type="submit" className="edit">
+            Edite
+          </button>
+        </Link>
         <button
           type="button"
           className="delete"

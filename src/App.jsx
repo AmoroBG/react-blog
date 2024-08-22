@@ -19,6 +19,8 @@ function App() {
   ]);
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
+  const [editTitle, setEditTitle] = useState("");
+  const [editBody, setEditBody] = useState("");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -46,6 +48,18 @@ function App() {
     const allPosts = posts.filter((post) => post.id !== id);
     setPosts(allPosts);
     Navigate("/");
+  };
+
+  const handleEdit = (id) => {
+    const allPosts = posts.map((post) =>
+      post.id === id ? { ...post, title: editTitle, body: editBody } : post
+    );
+    setPosts(allPosts);
+    setEditTitle("/");
+    setEditBody("/");
+    Navigate("/");
+
+    console.log("edited ", id);
   };
 
   return (
@@ -78,7 +92,22 @@ function App() {
             <PostDetailsPage posts={posts} handleDelete={handleDelete} />
           }
         />
-        <Route exact path="/edit-post" element={<EditPostPage />} />
+        <Route
+          exact
+          path="/edit/:id"
+          element={
+            <EditPostPage
+              editTitle={editTitle}
+              editBody={editBody}
+              setEditTitle={setEditTitle}
+              setEditBody={setEditBody}
+              handleEdit={handleEdit}
+              posts={posts}
+              postTitle={postTitle}
+              postBody={postBody}
+            />
+          }
+        />
         <Route exact path="*" element={<MissingPage />} />
       </Routes>
       <Footer />
