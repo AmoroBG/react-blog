@@ -8,6 +8,7 @@ import MissingPage from "./components/MissingPage";
 import Footer from "./components/Footer";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import apiRequest from "./apiRequest";
 
 function App() {
   const Navigate = useNavigate();
@@ -49,7 +50,7 @@ function App() {
     fetchPosts();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const id = posts.length ? Number(posts[posts.length - 1].id) + 1 : 1;
     const newPost = { id, title: postTitle, body: postBody };
@@ -58,6 +59,17 @@ function App() {
     setPostTitle("");
     setPostBody("");
     Navigate("/");
+
+    const postOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newPost),
+    };
+
+    const results = await apiRequest(API_URL, postOptions);
+    if (results) setFetchError(results);
   };
 
   const handleDelete = (id) => {
