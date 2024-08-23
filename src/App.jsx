@@ -72,10 +72,15 @@ function App() {
     if (results) setFetchError(results);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const allPosts = posts.filter((post) => post.id !== id);
     setPosts(allPosts);
     Navigate("/");
+
+    const deleteOptions = { method: "DELETE" };
+    const reqURL = `${API_URL}/${id}`;
+    const results = await apiRequest(reqURL, deleteOptions);
+    if (results) setFetchError(results);
   };
 
   const handleEdit = (id) => {
