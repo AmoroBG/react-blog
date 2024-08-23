@@ -7,22 +7,28 @@ const PostDetailsPage = ({ posts, handleDelete }) => {
 
   return (
     <main className="post-details">
-      <h2>{post.title}</h2>
-      <p>{post.body}</p>
-      <div className="buttons">
-        <Link to={`/edit/${post.id}`}>
-          <button type="submit" className="edit">
-            Edite
-          </button>
-        </Link>
-        <button
-          type="button"
-          className="delete"
-          onClick={() => handleDelete(post.id)}
-        >
-          Delet
-        </button>
-      </div>
+      {posts ? (
+        <>
+          <h2>{post.title}</h2>
+          <p>{post.body}</p>
+          <div className="buttons">
+            <Link to={`/edit/${post.id}`}>
+              <button type="submit" className="edit">
+                Edite
+              </button>
+            </Link>
+            <button
+              type="button"
+              className="delete"
+              onClick={() => handleDelete(post.id)}
+            >
+              Delet
+            </button>
+          </div>
+        </>
+      ) : (
+        <p>No posts to display...</p>
+      )}
     </main>
   );
 };

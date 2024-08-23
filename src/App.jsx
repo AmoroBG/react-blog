@@ -11,17 +11,16 @@ import { useEffect, useState } from "react";
 
 function App() {
   const Navigate = useNavigate();
+  const API_URL = "http://localhost:3500/posts";
 
-  const [posts, setPosts] = useState([
-    { id: 1, title: "Post 1", body: "Post 1 Content" },
-    { id: 2, title: "Post 2", body: "Post Two Body" },
-    { id: 3, title: "Post 3", body: "Post 3 Content" },
-  ]);
+  const [posts, setPosts] = useState([]);
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
   const [editTitle, setEditTitle] = useState("");
   const [editBody, setEditBody] = useState("");
   const [search, setSearch] = useState("");
+  const [fetchError, setFetchError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const searchPosts = posts.filter(
@@ -32,6 +31,23 @@ function App() {
 
     setPosts(searchPosts.reverse());
   }, [search]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw Error("Could not receive expected data");
+        const data = await response.json();
+        setPosts(data);
+        setFetchError(null);
+      } catch (err) {
+        setFetchError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
