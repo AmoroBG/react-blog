@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import apiRequest from "./apiRequest";
+import api from "./api/posts";
 
 function App() {
   const Navigate = useNavigate();
@@ -36,10 +37,8 @@ function App() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(API_URL);
-        if (!response.ok) throw Error("Could not receive expected data");
-        const data = await response.json();
-        setPosts(data);
+        const response = await api.get("/posts");
+        setPosts(response.data);
         setFetchError(null);
       } catch (err) {
         setFetchError(err.message);
@@ -83,7 +82,7 @@ function App() {
     if (results) setFetchError(results);
   };
 
-  const handleEdit = (id) => {
+  const handleEdit = async (id) => {
     const allPosts = posts.map((post) =>
       post.id === id ? { ...post, title: editTitle, body: editBody } : post
     );
@@ -92,7 +91,16 @@ function App() {
     setEditBody("/");
     Navigate("/");
 
-    console.log("edited ", id);
+    const updateOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(allPosts),
+    };
+    // const reqURL = `${API_URL}/${id}`;
+    const results = await apiRequest(API_URL, updateOptions);
+    if (results) console.log(results);
   };
 
   return (
