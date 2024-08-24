@@ -100,7 +100,14 @@ function App() {
         <Route
           exact
           path="/"
-          element={<Home posts={posts} setPosts={setPosts} />}
+          element={
+            <Home
+              posts={posts}
+              setPosts={setPosts}
+              fetchError={fetchError}
+              isLoading={isLoading}
+            />
+          }
         />
         <Route exact path="/post" element={<Post />} />
         <Route
