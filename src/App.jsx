@@ -53,54 +53,44 @@ function App() {
     e.preventDefault();
     const id = posts.length ? Number(posts[posts.length - 1].id) + 1 : 1;
     const newPost = { id, title: postTitle, body: postBody };
-    const allPosts = [...posts, newPost];
-    setPosts(allPosts);
-    setPostTitle("");
-    setPostBody("");
-    Navigate("/");
-
-    const postOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPost),
-    };
-
-    const results = await apiRequest(API_URL, postOptions);
-    if (results) setFetchError(results);
+    try {
+      const response = await api.post("/posts", newPost);
+      const allPosts = [...posts, response.data];
+      setPosts(allPosts);
+      setPostTitle("");
+      setPostBody("");
+      Navigate("/");
+    } catch (err) {
+      setFetchError(err.message);
+    }
   };
 
   const handleDelete = async (id) => {
-    const allPosts = posts.filter((post) => post.id !== id);
-    setPosts(allPosts);
-    Navigate("/");
-
-    const deleteOptions = { method: "DELETE" };
-    const reqURL = `${API_URL}/${id}`;
-    const results = await apiRequest(reqURL, deleteOptions);
-    if (results) setFetchError(results);
+    try {
+      await api.delete(`/posts/${id}`);
+      const allPosts = posts.filter((post) => post.id !== id);
+      setPosts(allPosts);
+      Navigate("/");
+    } catch (err) {
+      setFetchError(err.message);
+    }
   };
 
   const handleEdit = async (id) => {
-    const allPosts = posts.map((post) =>
-      post.id === id ? { ...post, title: editTitle, body: editBody } : post
-    );
-    setPosts(allPosts);
-    setEditTitle("/");
-    setEditBody("/");
-    Navigate("/");
+    const updatedPost = { id: id, title: editTitle, body: editBody };
 
-    const updateOptions = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(allPosts),
-    };
-    // const reqURL = `${API_URL}/${id}`;
-    const results = await apiRequest(API_URL, updateOptions);
-    if (results) console.log(results);
+    try {
+      const response = await api.put(`/posts/${id}`, updatedPost);
+      const allPosts = posts.map((post) =>
+        post.id === id ? response.data : post
+      );
+      setPosts(allPosts);
+      setEditTitle("");
+      setEditBody("");
+      Navigate("/");
+    } catch (err) {
+      setFetchError(err.message);
+    }
   };
 
   return (
